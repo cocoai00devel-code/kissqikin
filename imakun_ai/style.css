@@ -1,0 +1,88 @@
+/* .eye-animation {
+  animation: lookAround 3s infinite alternate ease-in-out; /* 3秒かけて左右に動き、無限に繰り返す */
+ /* }  */
+/* @keyframes lookAround { */
+  /* 0% {
+    transform: translateX(0); /* 開始位置 */
+ /* }
+  25% {
+    transform: translateX(-3px); /* 少し左に移動 */
+  /* }
+  50% {
+    transform: translateX(0); /* 中央に戻る */
+  /* } */ 
+  /* 75% { */
+    /* transform: translateX(3px); 少し右に移動 */
+   /* } */
+  /* 100% { */
+    /* transform: translateX(0); 中央に戻る */
+   /* }  */
+/* }  */
+
+
+/* ページ全体の中央配置 (前回からの流用) */
+/* body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f8f8;
+} */
+/* 🌟 アニメーションの複合適用 🌟 */
+.eye-animation {
+    /* 1. 瞬きアニメーションの時間を 8秒 に修正 (キーフレームの割合と合わせるため) */
+    /* 2. キョロキョロアニメーションの時間を 1.5秒 に短縮 (キョロキョロを速くするため) */
+    animation: 
+        blinkAndLook 8s infinite, /* 8秒周期で瞬きを管理 */
+        lookAround 1.5s infinite alternate ease-in-out; /* 1.5秒で往復、速くキョロキョロ */ 
+    
+    transform-origin: center; 
+}
+
+/* 1. 4回瞬きのアニメーション */
+@keyframes blinkAndLook {
+    /* 通常サイズで待機するキーフレーム */
+    0%, 25.1%, 35.1%, 66.1%, 76.1%, 100% { 
+        transform: scaleY(1); 
+    } 
+
+    /* 1回目の瞬き (閉じる) */
+    25% { transform: scaleY(0.1); }
+    
+    /* 2回目の瞬き (閉じる) */
+    35% { transform: scaleY(0.1); }
+    
+    /* 3回目の瞬き (閉じる) */
+    66% { transform: scaleY(0.1); }
+
+    /* 4回目の瞬き (閉じる) */
+    76% { transform: scaleY(0.1); }
+}
+
+/* 2. シンプルな左右キョロキョロアニメーション (速度を調整) */
+@keyframes lookAround {
+    0% {
+        transform: translateX(-3px); /* 開始位置を少し左に */
+    }
+    100% {
+        transform: translateX(3px); /* 終了位置を右に */
+    }
+}
+
+/* SVG全体を中央に配置するなどのスタイル */
+/* ページ全体の中央配置 (前回からの流用) */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f8f8;
+}
+svg {
+    border: 1px solid #ccc;
+    background-color: rgb(96, 161, 209);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}

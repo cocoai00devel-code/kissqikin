@@ -1,0 +1,263 @@
+/* <style></style>の中身記述いたす */
+/* 過去の今君ではここに非常に長いCSSコードがすべて書かれていた */
+        /* html { ... } */
+        /* body { ... } */
+        /* ... 略 ... */
+
+  /* 現在ではここに集約といたす　style_imakun.css */
+        html {
+            
+            font-size: 14px;
+        }
+         body {
+            /* 基本設定 */
+            margin: 0;
+            background: #0f0f0f; /* 新しい背景色 */
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+            
+            /* 1. スクロールを完全に禁止する設定 */
+            /* overflow: hidden; は、overflow-x/y の個別指定で代用できます。 */
+            overflow-x: hidden; /* 水平方向のスクロールを禁止 */
+            overflow-y: hidden; /* 垂直方向のスクロールを禁止 */
+            
+            /* 2. 全画面での中央配置と高さ/幅の固定 */
+            display: flex; 
+            justify-content: center; /* 水平方向の中央揃え */
+            align-items: center;     /* 垂直方向の中央揃え */
+            
+            /* bodyの高さをビューポートに合わせる（重要） */
+            min-height: 100vh;
+            width: 100vw;
+          }
+       
+
+        /* ----------- CSS補正結果 ----------- */
+
+    /* 1. 波形アニメーション (全画面背景) */
+    #waveCanvas {
+        position: fixed;
+        /* 全画面を最も効率よく覆う方法 */
+        top: 0; 
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0; 
+        /* 注: transformによる中央配置は、全画面の場合、top:0; left:0; よりも冗長なため削除 */
+    } 
+
+    /* 2. UIコンテナ（画面下部固定） */
+    #ui {
+        /* 画面下部に固定し、水平方向の中央に配置 */
+        position: fixed; 
+        bottom: calc(4% + env(safe-area-inset-bottom)); /* 画面下からの距離 (セーフエリア対応) */
+        left: 50%; 
+        transform: translateX(-50%); /* 水平中央揃え */
+        
+        /* Flexboxによる内部レイアウト */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        
+        /* サイズと装飾 */
+        z-index: 10;
+        width: 90%;
+        max-width: 600px;
+        
+        /* アニメーション */
+        transition: opacity 0.5s;
+        opacity: 1;
+    }
+
+        /* ステータスエリア */
+        #status-area {
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: pre-line; 
+            text-align: center;
+            line-height: 1.4;
+             max-width: 100%;
+            text-align: center;
+        }
+        
+
+        /* --- スマホ横向きに最適化 --- */
+        /* /* /* 非常に狭い画面用の調整 */
+        
+        /* @media (max-width: 400px) and (orientation: portrait) {
+            #status-area {
+                font-size: 0.95rem; /* さらに小さくする */
+                /* padding: 8px 15px;
+            }
+            #messageInput, #sendBtn {
+                padding: 0.8rem 1.2rem; パディングを小さくする 
+                /* font-size: 1rem; */ 
+            /* }  */
+        /* }  */
+
+        /* メディアクエリ内の調整 (小さな画面での確定的な修正) */
+        @media (max-width: 400px) and (orientation: portrait) {
+            /* status-areaの調整はそのまま */
+            #status-area {
+                font-size: 0.95rem;
+                padding: 8px 15px;
+            }
+            /* inputとsendBtnの調整 */
+            #messageInput, #sendBtn {
+                /* 左右のパディングを適度に確保 */
+                padding: 0.8rem 1.2rem; 
+                /* 枠に確実に収めるため、フォントサイズを少し小さくする (例: 0.9rem or 15px) */
+                font-size: 0.95rem; /* 1rem (16px) よりも小さく */
+            }
+        }
+
+/* 通常の #messageInput の調整 */
+#messageInput {
+    /* ... 略 ... */
+    
+    /* 枠内の基本サイズを変更: 左右のパディングを広くする */
+    padding: 0.8rem 1rem; /* 0.2rem から 1rem に変更 */
+    
+    /* レスポンシブなフォントサイズは維持しつつ、最大値を必要に応じて調整 */
+    /* font-size: clamp(1rem, 2.5vw, 16px); のままでOKだが、心配なら最大値を 15px などに下げても良い */
+    font-size: clamp(0.95rem, 2.5vw, 16px);
+}
+
+        #input-controls {
+            display: flex;
+            gap: 1rem;
+            /* width: fit-content; ← 削除または変更 */
+            width: 100%; /* 親要素の幅いっぱいに広げる */
+        }
+
+        #messageInput {
+                /* 1. レイアウトとサイズ (Layout & Sizing) */
+                flex-grow: 1; 
+                min-width: 50px; 
+
+                /* 2. 装飾と背景 (Visuals & Background) */
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(0, 255, 255, 0.5);
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+                outline: none;
+                
+                /* 3. タイポグラフィ (Typography) */
+                color: #fff;
+                /* 枠内の基本サイズを変更 */
+                /* 上下0.8rem、左右1.2remに変更して、高さを抑えつつ幅広に見せる例 */
+                padding: 0.8rem 0.2rem;
+                /* padding: 1rem; */
+                
+                /* レスポンシブなフォントサイズ */
+                /* 構文: clamp(最小サイズ, 推奨サイズ/スケーリング値, 最大サイズ) */
+                font-size: clamp(1rem, 2.5vw, 16px); 
+            }
+        
+        
+        #messageInput::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        #sendBtn {
+            font-size: 1rem; 
+            text-align: center;
+            width: auto; 
+            padding: 1rem 2rem;
+            color: #0f0f0f;
+            background: #00ffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: background 0.3s;
+            box-shadow: 0 0 40px #00ffff;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        #sendBtn:hover {
+            background: #33ffff;
+        }
+        
+       
+
+        /* 6. タップ検出エリア (UIトグル用) */
+        #tapArea {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; 
+        }
+
+    /* --- スイッチのコンテナとラベル --- */
+#music-toggle-container {
+    position: absolute; /* 必要に応じて調整 */
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #00ffff; /* デフォルトの水色 */
+    z-index: 100;
+}
+
+/* --- チェックボックス本体を隠す --- */
+#music-toggle-checkbox {
+    display: none;
+}
+
+/* --- スライダーのベース部分 --- */
+.toggle-switch-label {
+    display: inline-block;
+    position: relative;
+    width: 50px; /* 全体の幅 */
+    height: 26px; /* 全体の高さ */
+    margin-left: 10px;
+    border-radius: 13px; /* 角丸 */
+    background-color: #ccc; /* OFFの状態の色 (グレー) */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* --- スライダーの丸いツマミ部分 --- */
+.toggle-switch-label::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #fff; /* ツマミの色 */
+    transition: transform 0.3s, background-color 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* --- ONになった時のスタイル変更 --- */
+/* チェックボックスがチェックされた時のラベルのスタイル */
+#music-toggle-checkbox:checked + .toggle-switch-label {
+    background-color: #32CD32; /* ONの状態の色 (緑) */
+}
+
+/* チェックボックスがチェックされた時のツマミの位置と色のスタイル */
+#music-toggle-checkbox:checked + .toggle-switch-label::after {
+    transform: translateX(24px); /* 右へスライド (50px - 3px - 20px - 3px = 24px) */
+    background-color: #00ffff; /* ツマミの色を水色に */
+}
+
+/* --- ホバー時のフィードバック --- */
+.toggle-switch-label:hover {
+    box-shadow: 0 0 5px #00ffff;
+}

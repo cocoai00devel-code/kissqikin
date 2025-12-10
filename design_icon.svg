@@ -1,0 +1,97 @@
+<svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+
+    <path
+        d="M 50 200 A 250 250 0 0 1 550 200"
+        fill="none"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="round"
+    />
+    <!-- <path
+        d="M 0  0 A 50 50 0 0 1 350 200"
+        fill="none"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="round"
+    /> -->
+    <ellipse cx="245" cy="52" rx="15" ry="20" fill="white" stroke="black" stroke-width="1.5"/>
+    
+    <ellipse cx="315" cy="52" rx="15" ry="20" fill="white" stroke="black" stroke-width="1.5"/>
+
+    <ellipse cx="245" cy="52" rx="5" ry="10" fill="" stroke="black" stroke-width="1.5"/>
+    
+    <ellipse cx="315" cy="52" rx="5" ry="10" fill="" stroke="black" stroke-width="1.5"/>
+    <line x1="30" y1="80" x2="180" y2="110" stroke="black" stroke-width="3"/>
+    <line x1="30" y1="130" x2="180" y2="130" stroke="black" stroke-width="2"/>
+    <line x1="30" y1="180" x2="180" y2="150" stroke="black" stroke-width="3"/> 
+    <line x2="503" y2="80" x1="340" y1="110" stroke="black" stroke-width="3"/> 
+    <line x2="520" y2="130" x1="340" y1="130" stroke="black" stroke-width="2"/> 
+    <line x2="520" y2="180" x1="340" y1="150" stroke="black" stroke-width="3"/>
+    
+    <!-- <line x2="300" y2="80" x1="180" y1="110" stroke="black" stroke-width="3"/>
+    <line x2="300" y2="130" x1="180" y1="130" stroke="black" stroke-width="2"/>
+    <line x2="300" y2="180" x1="180" y1="150" stroke="black" stroke-width="3"/>  -->
+
+    <circle cx="280" cy="85" r="14" fill="red" stroke="black" stroke-width="2.5"/>
+
+    <text x="105" y="82" font-family="Arial, sans-serif" font-size="46" font-weight="1.5" fill="black" ><!-- </text>transform="rotate(-10 100 140)"> -->
+           K  S -      
+    </text>
+ <text x="215" y="98" font-family="Arial, sans-serif" font-size="96" font-weight="1.5" fill="black" transform="rotate(0 30 50)"> 
+           9      
+    </text>
+    <text x="290" y="94" font-family="Arial, sans-serif" font-size="96" font-weight="1.5" fill="black" ><!-- </text>transform="rotate(-10 100 140)"> -->
+            0      
+    </text>
+    <text x="360" y="92" font-family="Arial, sans-serif" font-size="96" font-weight="1.5" fill="black" ><!-- </text>transform="rotate(-10 100 140)"> -->
+            3    
+    </text>
+    <line x1="280" y1="100" x2="280" y2="150" stroke="black" stroke-width="2"/>
+    <!-- <text x="270" y="90" font-family="MS Gothic, sans-serif" font-size="24" fill="black">
+        自
+    </text> -->
+
+    <!-- <line x1="450" y1="100" x2="450" y2="150" stroke="black" stroke-width="2"/> -->
+    <!-- <text x="440" y="90" font-family="MS Gothic, sans-serif" font-size="24" fill="black">
+        青
+    </text> -->
+
+    <!-- <line x1="540" y1="190" x2="560" y2="210" stroke="black" stroke-width="3"/> -->
+    <!-- <line x1="560" y1="190" x2="540" y2="210" stroke="black" stroke-width="3"/> -->
+
+    <!-- <line x1="40" y1="190" x2="60" y2="210" stroke="black" stroke-width="3"/> -->
+    <!-- <line x1="60" y1="190" x2="40" y2="210" stroke="black" stroke-width="3"/> -->
+
+</svg>    <!-- <div class="icon-container">
+
+
+
+<!-- <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif"> -->
+    
+    <path d="M 30 100 A 70 70 0 0 1 170 100" fill="none" stroke="black" stroke-width="2"/>
+
+    <path d="M 40 100 L 40 130 M 40 115 L 50 105 M 40 115 L 50 125" fill="none" stroke="black" stroke-width="2"/>
+    <path d="M 55 105 Q 60 100 65 105 Q 70 110 65 115 Q 60 120 65 125" fill="none" stroke="black" stroke-width="2"/>
+    <line x1="70" y1="115" x2="75" y2="115" stroke="black" stroke-width="2"/>
+    <circle cx="85" cy="115" r="7" fill="none" stroke="black" stroke-width="2"/>
+    <circle cx="98" cy="115" r="7" fill="none" stroke="black" stroke-width="2"/>
+    <path d="M 110 110 Q 115 105 120 110 Q 115 115 120 120 Q 115 125 110 120" fill="none" stroke="black" stroke-width="2"/>
+    <path d="M 125 125 L 130 105 L 135 125 M 127 115 L 133 115" fill="none" stroke="black" stroke-width="2"/>
+    <path d="M 140 125 L 145 105 L 150 125 M 142 115 L 148 115" fill="none" stroke="black" stroke-width="2"/>
+
+    <circle id="red-dot" cx="85" cy="95" r="5" fill="red" stroke="black" stroke-width="1"/>
+
+    <line x1="20" y1="100" x2="25" y2="100" stroke="black" stroke-width="2"/>
+    <line x1="28" y1="100" x2="33" y2="100" stroke="black" stroke-width="2"/>
+    <line x1="175" y1="100" x2="180" y2="100" stroke="black" stroke-width="2"/>
+    <line x1="183" y1="100" x2="188" y2="100" stroke="black" stroke-width="2"/>
+
+    <text x="105" y="80" font-size="14" fill="black">白</text>
+    <line x1="107" y1="85" x2="107" y2="95" stroke="black" stroke-width="1.5"/>
+    <text x="125" y="90" font-size="14" fill="black">青</text>
+    <line x1="127" y1="95" x2="127" y2="105" stroke="black" stroke-width="1.5"/> -->
+
+    <!-- <text x="110" y="30" font-size="12" fill="black">・まばたきする</text>
+    <text x="110" y="45" font-size="12" fill="black">・目玉を動かして</text>
+    <text x="110" y="60" font-size="12" fill="black">　キョロキョロさせる</text> -->
+</svg>

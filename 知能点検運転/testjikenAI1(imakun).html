@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>統合 AI アシスタント＆JSデモ</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            max-width: 600px; 
+            margin: auto; 
+            padding: 20px; 
+        }
+        textarea, button { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            box-sizing: border-box; 
+        }
+        #response, #message { 
+            border: 1px solid #ccc; 
+            padding: 15px; 
+            min-height: 50px; 
+            background-color: #f9f9f9; 
+            white-space: pre-wrap; 
+            margin-bottom: 20px;
+        }
+        .js-demo-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        h2 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>💡 JavaScript動作確認デモ</h1>
+    
+    <p id="message">下のボタンを押して、ローカルなJavaScriptの動作を確認してください。</p>
+    <button id="actionButton" class="js-demo-button">動作確認ボタン</button>
+
+    <hr>
+    
+    <h1>🤖 AIアシスタント（FastAPI連携）</h1>
+    <p>質問を入力して、「応答を生成」ボタンを押してください。</p>
+
+    <textarea id="promptInput" placeholder="ここに質問を入力..." rows="4"></textarea>
+    <button onclick="generateResponse()">応答を生成</button>
+
+    <h2>AIからの応答</h2>
+    <div id="response">ここにAIからの応答が表示されます。</div>
+
+    <script>
+        // ===========================================
+        // 1. ユーザー提供のシンプルな JavaScript ロジック
+        // ===========================================
+        
+        // 手順 1: HTML要素を ID を使って取得する
+        const messageElement = document.getElementById('message');
+        const buttonElement = document.getElementById('actionButton');
+
+        // 手順 2: ボタンが「クリック」されたときの動作を定義する
+        buttonElement.addEventListener('click', function() {
+            // 手順 3: クリックされたら、メッセージの内容を変更する
+            messageElement.textContent = 'ボタンが押されました！JavaScriptが動いています！';
+
+            // (オプション) ボタン自体の見た目を変える
+            buttonElement.style.backgroundColor = 'green';
+        });
+
+        // ===========================================
+        // 2. FastAPI連携用の JavaScript ロジック
+        // ===========================================
+        
+        // ★★★ 修正済み：FastAPIサーバーの公開URLを絶対パスで指定 ★★★
+        // これにより、ローカルでファイルを開いた際のCORSエラーが回避されます。
+        const FASTAPI_BASE_URL = 'https://atjmuwnwmtjw-hello.hf.space'; 
+        const API_ENDPOINT = FASTAPI_BASE_URL + '/llm/generate';
+
+        async function generateResponse() {
+            const prompt = document.getElementById('promptInput').value;
+            const responseDiv = document.getElementById('response');
+            
+            if (!prompt.trim()) {
+                responseDiv.textContent = "質問を入力してください。";
+                return;
+            }
+
+            // ローディング状態を設定
+            responseDiv.textContent = "応答を生成中...";
+
+            try {
+                // Fetch APIを使用してFastAPIサーバーにPOSTリクエストを送信
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // FastAPIのPydanticモデル (LLMRequest) に合わせたJSONボディを作成
+                    body: JSON.stringify({ 
+                        prompt: prompt, 
+                        max_length: 1000 
+                    })
+                });
+
+                if (!response.ok) {
+                    // エラーレスポンスを解析
+                    const errorData = await response.json();
+                    // サーバーからのエラー（例: 500 Internal Server Errorなど）
+                    throw new Error(`API Error: ${response.status} - ${errorData.detail || 'Unknown error'}`);
+                }
+
+                // 応答のJSONを解析し、textフィールドを取得
+                const data = await response.json();
+                responseDiv.textContent = data.text; // 結果をHTMLに反映
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                // ネットワークエラーや上記でthrowされたエラーを表示
+                responseDiv.textContent = `エラーが発生しました: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
