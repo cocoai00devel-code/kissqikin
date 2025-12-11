@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>手話認識 Web版</title>
+    <style>
+        body { margin: 0; display: flex; flex-direction: column; align-items: center; font-family: sans-serif; }
+        .container { position: relative; width: 960px; height: 540px; }
+        canvas { position: absolute; top: 0; left: 0; }
+        #input-letters { 
+            position: absolute; top: 5%; width: 100%; text-align: center;
+            color: white; font-size: 30px; font-weight: bold; text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+            z-index: 10;
+        }
+        #fps-info { position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px; z-index: 10; }
+        #mode-info { position: absolute; top: 50px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px; z-index: 10; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469640/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.14.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.14.0/dist/tf-converter.min.js"></script>
+    <script src="hand-logic.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>Web版 指文字認識</h1>
+    <p>ブラウザのコンソールで `number` と `mode` の情報を確認できます。</p>
+    <div class="container">
+        <video id="webcam" style="display: none;" width="960" height="540" autoplay playsinline></video>
+        <canvas id="output_canvas" width="960" height="540"></canvas>
+        <div id="input-letters"></div>
+        <div id="fps-info">FPS: 0.00</div>
+        <div id="mode-info">MODE: 0</div>
+    </div>
+</body>
+</html>
