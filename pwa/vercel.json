@@ -1,0 +1,8 @@
+{
+  "builds": [
+    { "src": "insdex.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/insdex.html" }
+  ]
+}

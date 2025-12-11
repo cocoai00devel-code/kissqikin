@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KS903 PWA</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#a0d8ef; font-family:sans-serif; }
+
+#logo-container { position:relative; width:200px; height:200px; margin-bottom:20px; }
+#logo-container img { width:100%; height:100%; }
+
+.eyes { position:absolute; top:50px; left:50px; display:flex; gap:30px; }
+.eye { width:30px; height:30px; background:white; border-radius:50%; position:relative; }
+.eye::after {
+  content:'';
+  width:12px; height:12px;
+  background:black; border-radius:50%;
+  position:absolute;
+  top:9px; left:9px;
+  animation: blink 3s infinite, look 2s infinite alternate;
+}
+@keyframes blink {
+  0%, 95%, 100% { height:12px; }
+  97% { height:0; }
+}
+@keyframes look {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(5px); }
+  100% { transform: translateX(-5px); }
+}
+
+h1 { margin:0; font-size:24px; color:#0a74da; }
+p { font-size:16px; color:#333; text-align:center; max-width:300px; }
+</style>
+</head>
+<body>
+
+<div id="logo-container">
+  <img src="/images/ks903.png" alt="KS903ロゴ">
+  <div class="eyes">
+    <div class="eye"></div>
+    <div class="eye"></div>
+  </div>
+</div>
+
+<h1>KS903 PWA</h1>
+<p>Android/iOS両方でQRからアクセス可能。アプリっぽく使えます。</p>
+
+<script>
+// Service Worker登録
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(reg => console.log('Service Worker registered:', reg))
+    .catch(err => console.error('SW registration failed:', err));
+}
+</script>
+
+</body>
+</html>
