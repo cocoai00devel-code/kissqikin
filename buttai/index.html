@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YOLOv8 WebSocket 物体検知</title>
+    <style>
+        body { margin: 0; display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
+        #video-container { position: relative; }
+        /* 映像は左右反転し、描画されたキャンバスは反転させないことで、自撮りビューを実現 */
+        #webcam { transform: scaleX(-1); }
+        #canvas { position: absolute; top: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <h1>YOLOv8 リアルタイム物体検知 (Python連携)</h1>
+    <div id="video-container">
+        <video id="webcam" autoplay muted playsinline></video>
+        <canvas id="canvas"></canvas>
+    </div>
+    <p>検出状況: <span id="status">接続中...</span></p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        const video = document.getElementById('webcam');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const statusElement = document.getElementById('status');
+        
+        // Socket.IO 接続
+        const socket = io('http://localhost:5000'); // Pythonサーバーのアドレスに合わせる
+
+        let isCameraReady = false;
+
+        // --- 1. カメラ設定 ---
+        async function setupCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user', 
+                        width: { ideal: 640 }, // 解像度を落とすと処理が速くなる
+                        height: { ideal: 480 }
+                    } 
+                });
+                video.srcObject = stream;
+
+                return new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        // 映像サイズに合わせてキャンバスを設定
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        video.width = video.videoWidth;
+                        video.height = video.videoHeight;
+                        isCameraReady = true;
+                        resolve();
+                    };
+                });
+            } catch (error) {
+                statusElement.textContent = "カメラアクセスエラー: " + error.name;
+                console.error("Webカメラのアクセスに失敗しました:", error);
+            }
+        }
+
+        // --- 2. サーバーへの接続とフレーム送信 ---
+        socket.on('connect', () => {
+            statusElement.textContent = "接続成功。フレーム送信開始。";
+            if (isCameraReady) {
+                // 接続確立後、フレームの繰り返し処理を開始
+                requestAnimationFrame(sendFrame);
+            }
+        });
+
+        socket.on('connect_error', (error) => {
+            statusElement.textContent = `接続エラー: ${error.message}`;
+            console.error("Socket.IO接続エラー:", error);
+        });
+
+        function sendFrame() {
+            if (video.paused || video.ended || !isCameraReady) return;
+
+            // 映像フレームを一時的にキャンバスに描画
+            // Webカメラ映像は反転されているため、ここでは一旦通常通り描画
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // キャンバスの内容をJPEG形式でBase64データURLとして取得 (圧縮率を上げると高速に)
+            const frameDataUrl = canvas.toDataURL('image/jpeg', 0.5); 
+
+            // WebSocket経由でサーバーに送信
+            socket.emit('video_frame', { image: frameDataUrl });
+
+            // 次のフレーム送信/処理をリクエスト
+            requestAnimationFrame(sendFrame);
+        }
+
+        // --- 3. サーバーからの検知結果受信と描画 ---
+        socket.on('detection_results', (data) => {
+            const predictions = data.results;
+            
+            // 描画クリア
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            predictions.forEach(p => {
+                const [x1, y1, x2, y2] = p.box;
+                const width = x2 - x1;
+                const height = y2 - y1;
+
+                // バウンディングボックスの描画
+                context.strokeStyle = p.class === 'person' ? 'red' : 'cyan';
+                context.lineWidth = 2;
+                // 注意: YOLOv8の座標は通常反転されていないため、キャンバスに合わせて調整
+                context.strokeRect(x1, y1, width, height);
+
+                // ラベルとスコアの描画
+                const score = (p.score * 100).toFixed(1);
+                const text = `${p.class} (${score}%)`;
+                context.fillStyle = context.strokeStyle;
+                context.font = '16px Arial';
+                context.fillText(text, x1, y1 > 16 ? y1 - 5 : 16);
+            });
+        });
+
+        // --- メイン処理の開始 ---
+        async function main() {
+            await setupCamera();
+            // カメラ準備完了後、SocketIO接続が確立したらフレーム送信開始
+        }
+
+        main();
+    </script>
+</body>
+</html>
